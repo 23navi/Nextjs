@@ -1,5 +1,6 @@
-import Image from "next/image";
+import homeImg from "public/home.jpg";
+import Hero from "@/components/Hero";
 
 export default function Home() {
-  return <h1>Index</h1>;
+  return <Hero imgData={homeImg} title="Home" altText="Home page" />;
 }
