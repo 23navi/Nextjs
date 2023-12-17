@@ -4,10 +4,20 @@ import Link from "next/link";
 const index = () => {
   return (
     <main>
-      <nav>
-        <Link href="/about">About page</Link>
-      </nav>
       <h1>Home</h1>
+      <div>
+        <ul>
+          <li>
+            <Link href="posts/first">First Post</Link>
+          </li>
+          <li>
+            <Link href="posts/second">Second Post</Link>
+          </li>
+          <li>
+            <Link href="posts/third">Third Post</Link>
+          </li>
+        </ul>
+      </div>
     </main>
   );
 };
