@@ -1,4 +1,7 @@
 .switchButton {
-  background-color: red;
+  background: none;
+  border: none;
   height: 30px;
+  cursor: pointer;
+  font-size: 20px;
 }
