@@ -15,6 +15,7 @@ const index = ({ posts }) => {
   return (
     <main>
       <h1>Home</h1>
+
       <div>
         <ul>
           {posts.map((post) => (
