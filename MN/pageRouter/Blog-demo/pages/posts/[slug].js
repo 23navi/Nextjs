@@ -1,9 +1,21 @@
 // import { useRouter } from "next/router";
 import React from "react";
-import getPages from "../../libs/getPages";
+import getPage from "../../libs/getPage";
 
-export const getStaticProps = async () => {
-  const { date, title, html } = await getPages("first");
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { slug: "first" } },
+      { params: { slug: "second" } },
+      { params: { slug: "third" } },
+      { params: { slug: "forth" } },
+    ],
+    fallback: true, // false or 'blocking'
+  };
+};
+
+export const getStaticProps = async ({ params }) => {
+  const { date, title, html } = await getPage(params.slug);
   console.log({ date, title, html });
   return {
     props: {
