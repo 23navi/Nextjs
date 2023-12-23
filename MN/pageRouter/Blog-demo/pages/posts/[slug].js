@@ -1,15 +1,12 @@
 // import { useRouter } from "next/router";
 import React from "react";
 import getPage from "../../libs/getPage";
+import listPages from "../../libs/listPages";
 
 export const getStaticPaths = async () => {
+  const paths = await listPages();
   return {
-    paths: [
-      { params: { slug: "first" } },
-      { params: { slug: "second" } },
-      { params: { slug: "third" } },
-      { params: { slug: "forth" } },
-    ],
+    paths: paths.map((path) => ({ params: { slug: path } })),
     fallback: true, // false or 'blocking'
   };
 };
