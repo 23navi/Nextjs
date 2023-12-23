@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import getPosts from "../libs/getPosts";
+import ThemeSwitch from "../components/ThemeSwitch";
 
 export async function getStaticProps() {
   const posts = await getPosts();
@@ -14,7 +15,11 @@ export async function getStaticProps() {
 const index = ({ posts }) => {
   return (
     <main>
-      <h1>Home</h1>
+      <div className="indexDiv">
+        <h1>Home</h1>
+        <ThemeSwitch />
+      </div>
+
       <div>
         <ul>
           {posts.map((post) => (
