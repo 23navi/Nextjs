@@ -22,15 +22,6 @@ const index = ({ posts }) => {
               <Link href={`posts/${post.slug}`}>{post.title}</Link>
             </li>
           ))}
-          {/* <li>
-            <Link href="posts/first">First Post</Link>
-          </li>
-          <li>
-            <Link href="posts/second">Second Post</Link>
-          </li>
-          <li>
-            <Link href="posts/third">Third Post</Link>
-          </li> */}
         </ul>
       </div>
     </main>
