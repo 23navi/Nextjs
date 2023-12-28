@@ -1,5 +1,4 @@
 import Head from "next/head";
-import Link from "next/link";
 import axios from "axios";
 
 export const getStaticPaths = async () => {
@@ -8,18 +7,28 @@ export const getStaticPaths = async () => {
     params: { id: product.id.toString() },
   }));
 
-  return { paths, fallback: false };
+  return { paths, fallback: "blocking" };
 };
 
 export const getStaticProps = async (context) => {
   const id = context.params.id;
-  const product = await axios.get(`http://localhost:1337/products/${id}`);
-  return {
-    props: {
-      product: product.data,
-    },
-    revalidate: 30, // 10 seconds
-  };
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    const product = await axios.get(`http://localhost:1337/products/${id}`);
+    return {
+      props: {
+        product: product.data,
+      },
+      revalidate: 30, // 10 seconds
+    };
+  } catch (err) {
+    console.log(err.response.status);
+    if (err.response.status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+  }
 };
 
 export default function Product(props) {
