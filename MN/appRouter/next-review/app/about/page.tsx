@@ -1,8 +1,12 @@
-export default function About() {
+import Heading from '@/components/Heading';
+
+export default function AboutPage() {
   return (
     <>
-      <h1>About Page</h1>
-      <p>This will be the About page.</p>
+      <Heading>About</Heading>
+      <p>
+        A website created to learn Next.js
+      </p>
     </>
   );
 }
