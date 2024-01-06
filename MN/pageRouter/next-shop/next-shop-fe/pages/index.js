@@ -1,34 +1,29 @@
-import Head from "next/head";
+import Page from '../components/Page';
+import ProductCard from '../components/ProductCard';
+import { getProducts } from '../lib/products';
 
-import axios from "axios";
-import { ProductCard } from "@/components/ProductCard";
-
-export const getStaticProps = async () => {
-  const products = await axios.get("http://localhost:1337/products");
+export async function getStaticProps() {
+  console.log('[HomePage] getStaticProps()');
+  const products = await getProducts();
   return {
-    props: {
-      products: products.data,
-    },
-    revalidate: 30, // 10 seconds
+    props: { products },
+    revalidate: parseInt(process.env.REVALIDATE_SECONDS),
   };
-};
+}
 
-export default function Home(props) {
+function HomePage({ products }) {
+  console.log('[HomePage] render:', products);
   return (
-    <>
-      <Head>
-        <title>Next Shop</title>
-      </Head>
-      <main className="px-6 py-4">
-        <h1 className="text-lg text-amber-600">Next Shop</h1>
-        <div>
-          <ul className="grid grid-cols-3">
-            {props.products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </ul>
-        </div>
-      </main>
-    </>
+    <Page title="Indoor Plants">
+      <ul className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {products.map((product) => (
+          <li key={product.id}>
+            <ProductCard product={product} />
+          </li>
+        ))}
+      </ul>
+    </Page>
   );
 }
+
+export default HomePage;
