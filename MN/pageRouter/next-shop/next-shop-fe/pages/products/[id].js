@@ -1,45 +1,54 @@
-import Head from "next/head";
-import axios from "axios";
+import Image from 'next/image';
+import Page from '../../components/Page';
+import { ApiError } from '../../lib/api';
+import { getProduct, getProducts } from '../../lib/products';
 
-export const getStaticPaths = async () => {
-  const products = await axios.get("http://localhost:1337/products");
-  const paths = products.data.map((product) => ({
-    params: { id: product.id.toString() },
-  }));
+export async function getStaticPaths() {
+  const products = await getProducts();
+  return {
+    paths: products.map((product) => ({
+      params: { id: product.id.toString() },
+    })),
+    fallback: 'blocking',
+  };
+}
 
-  return { paths, fallback: "blocking" };
-};
-
-export const getStaticProps = async (context) => {
-  const id = context.params.id;
+export async function getStaticProps({ params: { id } }) {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    const product = await axios.get(`http://localhost:1337/products/${id}`);
+    const product = await getProduct(id);
     return {
-      props: {
-        product: product.data,
-      },
-      revalidate: 30, // 10 seconds
+      props: { product },
+      revalidate: parseInt(process.env.REVALIDATE_SECONDS),
     };
   } catch (err) {
-    console.log(err.response.status);
-    if (err.response.status === 404) {
-      return {
-        notFound: true,
-      };
+    if (err instanceof ApiError && err.status === 404) {
+      return { notFound: true };
     }
+    throw err;
   }
-};
+}
 
-export default function Product(props) {
+function ProductPage({ product }) {
+  console.log('[ProductPage] render:', product);
   return (
-    <>
-      <Head>
-        <title>{props.product.title}</title>
-      </Head>
-      <main>
-        <div>{props.product.title}</div>
-      </main>
-    </>
+    <Page title={product.title}>
+      <div className="flex flex-col lg:flex-row">
+        <div>
+          <Image src={product.pictureUrl} alt=""
+            width={640} height={480} priority
+          />
+        </div>
+        <div className="flex-1 lg:ml-4">
+          <p className="text-sm">
+            {product.description}
+          </p>
+          <p className="text-lg font-bold mt-2">
+            {product.price}
+          </p>
+        </div>
+      </div>
+    </Page>
   );
 }
+
+export default ProductPage;
