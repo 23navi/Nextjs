@@ -1,8 +1,13 @@
-import '../styles/globals.css';
+import "../styles/globals.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App({ Component, pageProps }) {
   return (
-    <Component {...pageProps} />
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+    </QueryClientProvider>
   );
 }
 
