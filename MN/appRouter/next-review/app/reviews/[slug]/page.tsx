@@ -1,5 +1,6 @@
 import Heading from "@/components/Heading";
 import { getReview, getSlugs } from "@/lib/reviews";
+import ShareLinkButton from "@/components/ShareLinkButton";
 
 interface ReviewPageParams {
   slug: string;
@@ -19,11 +20,15 @@ export default async function ReviewPage({
   params: { slug }, // destructure params from props then destructuring slug
 }: ReviewPageProps) {
   const review = await getReview(slug);
-  console.log("This is running");
   return (
     <>
       <Heading>{review.title}</Heading>
-      <p className="italic pb-2">{review.date}</p>
+
+      <div className="flex align-baseline gap-x-1 justify-items-center content-center">
+        <p className="italic pb-2">{review.date}</p>
+        <ShareLinkButton />
+      </div>
+
       <img
         src={review.image}
         alt=""
