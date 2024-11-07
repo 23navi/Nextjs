@@ -1,5 +1,13 @@
-import Image from "next/image";
+import { db } from "@/db";
+export default async function Home() {
+  const snippets = await db.snippet.findMany();
+  console.log({ snippets });
 
-export default function Home() {
-  return <h1> Home page</h1>;
+  const renderedSnippets = snippets.map((snippet) => (
+    <div key={snippet.id}>
+      <h2>{snippet.title}</h2>
+      <p>{snippet.code}</p>
+    </div>
+  ));
+  return <div>{renderedSnippets}</div>;
 }
