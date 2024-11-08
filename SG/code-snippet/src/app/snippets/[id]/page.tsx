@@ -1,12 +1,17 @@
+import { db } from "@/db";
 export default async function SnippetShoPage(props: any) {
-  const { id } = await props.params;
-  console.log({ id });
-  console.log({ params: props.params });
-  console.log("fu");
-  //   console.log({ props });
+  const params = await props.params;
+  const { id } = params;
+
+  const snippit = await db.snippet.findUnique({
+    where: {
+      id,
+    },
+  });
+
   return (
     <div>
-      <h1>showingSnippets</h1>
+      <h1>{snippit?.id}</h1>
     </div>
   );
 }

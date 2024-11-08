@@ -16,7 +16,6 @@ export default function SnippetCreatePage() {
 
     redirect("/");
 
-    console.log({ ...newSnippet });
   }
   return (
     <form action={createSnippet}>
